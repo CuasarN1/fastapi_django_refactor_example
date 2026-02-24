@@ -1,17 +1,30 @@
-from pydantic import BaseModel, Field, date
-from users import User
+from pydantic import BaseModel, Field, datetime
+from typing import Optional
 
 
-class LocationRequestSchema(BaseModel):
-    name: str = Field(max_length=256)
-    description: str
-    author: User
-    is_published: bool
+from schemas.users import User
 
 
-class PostResponseSchema(BaseModel):
+class LocationBase(BaseModel):
     title: str = Field(max_length=256)
     description: str
     is_published: bool
+
+
+class LocationCreate(LocationBase):
+    author_id: int
+
+
+class LocationUpdate(BaseModel):
+    title: Optional[str] = Field(max_length=256)
+    description: Optional[str]
+    is_published: Optional[bool]
+
+
+class Location(BaseModel):
+    id: int
     author: User
-    created_at: date
+    title: str = Field(max_length=256)
+    description: str
+    is_published: bool
+    created_at: datetime

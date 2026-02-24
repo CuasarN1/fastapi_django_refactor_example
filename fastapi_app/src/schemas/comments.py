@@ -1,16 +1,26 @@
-from pydantic import BaseModel, date
-from posts import Post
-from users import User
+from pydantic import BaseModel, datetime
+from typing import Optional
 
 
-class CommentRequestSchema(BaseModel):
+from schemas.posts import Post
+from schemas.users import User
+
+
+class CommentBase(BaseModel):
     text: str
-    post: Post
+
+
+class CommentCreate(CommentBase):
+    author_id: int
+    post_id: int
+
+
+class CommentUpdate(BaseModel):
+    text: Optional[str]
+
+
+class Comment(BaseModel):
     author: User
-
-
-class CommentResponseSchema(BaseModel):
+    post: Post
     text: str
-    post: Post
-    author: User
-    created_at: date
+    created_at: datetime
