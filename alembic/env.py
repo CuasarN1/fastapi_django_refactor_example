@@ -5,8 +5,9 @@ from sqlalchemy import pool
 
 from alembic import context
 
-from infrastructure.sqlite.database import Base  # noqa
-from infrastructure.sqlite.models.users import *  # noqa
+from application.infrastructure.sqlite.database import Base  # noqa
+from application.infrastructure.sqlite.models.users import *  # noqa
+from application.infrastructure.sqlite.models.posts import *  # noqa
 
 # this is the Alembic Config object, which provides
 # access to the values within the .ini file in use.

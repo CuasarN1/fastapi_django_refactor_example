@@ -1,0 +1,23 @@
+from fastapi import FastAPI
+from starlette.middleware.cors import CORSMiddleware
+
+from application.api.user import router as user_router
+from application.api.auth import router as auth_router
+from application.api.posts import router as post_router
+
+
+def create_app() -> FastAPI:
+    app = FastAPI(root_path="/api/v1")
+    app.add_middleware(
+        CORSMiddleware,  # type: ignore
+        allow_origins=["*"],
+        allow_credentials=True,
+        allow_methods=["*"],
+        allow_headers=["*"],
+    )
+
+    app.include_router(user_router, prefix="/user", tags=["User"])
+    app.include_router(auth_router, tags=["Auth"])
+    app.include_router(post_router, tags=["Post"])
+
+    return app
