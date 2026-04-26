@@ -1,5 +1,5 @@
-from application.infrastructure.sqlite.database import database
-from application.infrastructure.sqlite.repositories.users import UserRepository
+from application.infrastructure.postgres.database import database
+from application.infrastructure.postgres.repositories.users import UserRepository
 from application.schemas.users import User as UserSchema, CreateUser
 from application.core.exceptions.database_exceptions import EntityAlreadyExistsException
 from application.core.exceptions.domain_exceptions import UserLoginIsNotUniqueException
@@ -15,8 +15,8 @@ class CreateUserUseCase:
         user.password = get_password_hash(password=user.password)
 
         try:
-            with self._database.session() as session:
-                user = self._repo.create(session=session, user=user)
+            async with self._database.session() as session:
+                user = await self._repo.create(session=session, user=user)
         except EntityAlreadyExistsException:
             raise UserLoginIsNotUniqueException(login=user.login)
 

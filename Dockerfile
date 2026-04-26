@@ -5,7 +5,6 @@ COPY ./src /app/src
 COPY alembic /app/alembic
 COPY alembic.ini /app/
 COPY requiriments.txt /app/
-COPY sqlite.db /app/
 COPY ./images /images
 
 ENV PYTHONPATH /app/src

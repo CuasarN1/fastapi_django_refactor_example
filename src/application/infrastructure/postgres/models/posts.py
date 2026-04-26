@@ -1,7 +1,7 @@
 from sqlalchemy import ForeignKey
 from sqlalchemy.orm import Mapped, mapped_column
 
-from application.infrastructure.sqlite.database import Base
+from application.infrastructure.postgres.database import Base
 
 
 class Posts(Base):

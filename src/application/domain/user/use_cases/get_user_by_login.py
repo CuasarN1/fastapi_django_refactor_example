@@ -1,7 +1,7 @@
 import logging
 
-from application.infrastructure.sqlite.database import database
-from application.infrastructure.sqlite.repositories.users import UserRepository
+from application.infrastructure.postgres.database import database
+from application.infrastructure.postgres.repositories.users import UserRepository
 from application.schemas.users import User as UserSchema
 from application.core.exceptions.database_exceptions import EntityNotFoundException
 from application.core.exceptions.domain_exceptions import UserNotFoundByLoginException
@@ -16,8 +16,8 @@ class GetUserByLoginUseCase:
 
     async def execute(self, login: str, current_user: UserSchema) -> UserSchema:
         try:
-            with self._database.session() as session:
-                user = self._repo.get(session=session, login=login)
+            async with self._database.session() as session:
+                user = await self._repo.get(session=session, login=login)
         except EntityNotFoundException:
             error = UserNotFoundByLoginException(login=login)
             logger.error(
