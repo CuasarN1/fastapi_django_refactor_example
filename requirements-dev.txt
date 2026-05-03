@@ -1,0 +1,4 @@
+-r requiriments.txt
+pytest==8.4.2
+pytest-asyncio==0.25.2
+pytest-env==1.2.0
