@@ -12,7 +12,8 @@ from tests.mocks import AsyncCallRecorder, FakeRow
 
 class TestCreateUserUseCase:
     async def test_hashes_password_and_returns_user(
-        self, create_user_use_case: CreateUserUseCase
+        self,
+        create_user_use_case: CreateUserUseCase,
     ) -> None:
         captured: dict[str, CreateUser] = {}
 

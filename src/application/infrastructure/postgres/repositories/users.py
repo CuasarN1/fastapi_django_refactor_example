@@ -8,6 +8,9 @@ from application.infrastructure.postgres.models.users import User as UserModel
 from application.schemas.users import CreateUser as UserSchema
 from application.core.exceptions.database_exceptions import EntityNotFoundException, EntityAlreadyExistsException
 
+import logging
+logger = logging.getLogger(__name__)
+
 
 class UserRepository:
     def __init__(self):
@@ -34,7 +37,11 @@ class UserRepository:
 
         try:
             user = await session.scalar(query)
-        except IntegrityError:
-            raise EntityAlreadyExistsException()
+        except IntegrityError as err:
+            error_cause = str(err.__cause__.args[0])
+            filed_cause = error_cause.split("\n")[-1]
+            final_cause = filed_cause[filed_cause.find("(")+len("("):filed_cause.find(")")]
+            logger.critical(f"{final_cause=}")
+            raise EntityAlreadyExistsException(detail=final_cause)
 
         return user
